@@ -43,9 +43,10 @@ public class QuoteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Quote> update(@PathVariable int id, @RequestBody @Valid Quote quoteToUpdate) {
+    public ResponseEntity<Quote> update(@PathVariable long id, @RequestBody @Valid Quote quoteToUpdate) {
         if (id != quoteToUpdate.getId()) {
-            throw new IllegalArgumentException("Id in URL is different than in body: " + id + " and " + (quoteToUpdate.getId() == 0 ? "empty" : quoteToUpdate.getId()));
+            throw new IllegalArgumentException("Id in URL is different than in body: " + id + " and " +
+                    (quoteToUpdate.getId() == 0 ? "empty" : quoteToUpdate.getId()));
         }
 
         if (quoteService.getQuote(id).isPresent()) {
@@ -64,7 +65,14 @@ public class QuoteController {
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
+
+            if (errors.containsKey(fieldName)) {
+                String newMessage = errors.get(fieldName) + " " + errorMessage;
+                errors.put(fieldName, newMessage);
+            } else {
+                errors.put(fieldName, errorMessage);
+            }
+
         });
 
         return errors;
