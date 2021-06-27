@@ -6,7 +6,7 @@ gradlew bootRun
 ```
 Alternatywnie do uruchomienia aplikacji można również użyć IDE np. Intellij IDEA
 
-##Dostępnę endpointy
+## Dostępnę endpointy
 
 * POST `/quote` - Dodaje nowy cytat. Wymagane jest podanie cytatu w `body` requestu. Treść cytatu oraz autor nie mogą być puste oraz cytat musi mieć długość w przedziale 3-250 znaków, a autor 3-100.
 
